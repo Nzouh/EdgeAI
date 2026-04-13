@@ -1,8 +1,22 @@
+# Environments
 venv/
 .venv/
 .env/
-venv
-.venv
-*.log
-bin/
-obj/
+
+# Large Data & Binaries
+*.csv
+*.bin
+*.npz
+*.exe
+
+# Private Agent State
+.agents/
+skills-lock.json
+
+# Build & Python Cache
+__pycache__/
+build/
+dist/
+*.o
+*.a
+*.so
