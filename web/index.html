@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NASA Sentinel | Predictive Maintenance Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="glass-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="logo">
+                <div class="pulse-icon"></div>
+                SENTINEL
+            </div>
+            <ul class="nav-links">
+                <li class="active">Fleet Health</li>
+                <li>Live Telemetry</li>
+                <li>Validator Logs</li>
+                <li>System Settings</li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="content">
+            <header class="header">
+                <h1>Predictive Engine Analysis</h1>
+                <div class="status-badge" id="global-status">SYSTEM NOMINAL</div>
+            </header>
+
+            <div class="dashboard-grid">
+                <!-- Health Gauge -->
+                <div class="card health-card">
+                    <h3>Failure Probability</h3>
+                    <div class="gauge-container">
+                        <svg class="gauge" viewBox="0 0 100 100">
+                            <circle class="gauge-bg" cx="50" cy="50" r="45"></circle>
+                            <circle class="gauge-progress" id="probability-bar" cx="50" cy="50" r="45"></circle>
+                        </svg>
+                        <div class="gauge-value" id="probability-text">0.01%</div>
+                    </div>
+                    <p class="subtext">Edge Inference Accuracy: 98.6%</p>
+                </div>
+
+                <!-- Simulation Inputs -->
+                <div class="card input-card">
+                    <h3>Engine Diagnostic Simulator</h3>
+                    <p class="subtext">Manual Sensor Override (17-Axis Vitals)</p>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <label>Vibration (s17)</label>
+                            <input type="range" min="20" max="25" step="0.1" value="23" id="s17" class="sensor-slider">
+                        </div>
+                        <div class="input-group">
+                            <label>Temp (s2)</label>
+                            <input type="range" min="640" max="645" step="0.1" value="642" id="s2" class="sensor-slider">
+                        </div>
+                        <div class="input-group">
+                            <label>Pressure (s3)</label>
+                            <input type="range" min="1580" max="1610" step="1" value="1588" id="s3" class="sensor-slider">
+                        </div>
+                    </div>
+                    <button class="btn-primary" id="analyze-btn">RUN SENTINEL ANALYSIS</button>
+                </div>
+
+                <!-- Alert Panel -->
+                <div class="card alert-card" id="alert-panel">
+                    <h3>Sentinel Analysis Report</h3>
+                    <div class="alert-content">
+                        <div class="alert-item">
+                            <span class="label">Cycle Estimate:</span>
+                            <span class="value" id="cycle-est">NOMINAL (>30)</span>
+                        </div>
+                        <div class="alert-item danger-fade" id="warning-text">
+                            NO ACTION REQUIRED
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

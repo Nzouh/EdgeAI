@@ -1,8 +1,12 @@
 # STAGE 1: Build the C++ Engine
 FROM alpine:latest AS builder
-RUN apk add --no-cache build-base
+RUN apk add --no-cache build-base curl
 
 WORKDIR /build
+
+# Download header-only web server library directly in Linux environment
+RUN curl -L -o httplib.h https://raw.githubusercontent.com/yhirose/cpp-httplib/v0.15.3/httplib.h
+
 # Copy only the code we need to compile
 COPY compiler/ /build/
 
