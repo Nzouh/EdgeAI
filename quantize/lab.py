@@ -1,6 +1,16 @@
 import torch
 from torch.ao.quantization.fx._decomposed import dequantize_per_tensor
 import torch
+import struct
+import numpy as np
+
+def export_model(weights, scale, zero_point, filename="model.bin"):
+    rows, cols = weights.shape
+    with open(filename, "wb") as f:
+        # 'i' = int32, 'f' = float32, B=uint8
+        f.write(struct.pack("iifi", rows, cols, scale, zero_point))
+        f.write(weights.numpy().tobytes())
+        print(f"Exported to {filename}")
 
 def get_symmetric_scale(x):
 
@@ -45,6 +55,17 @@ def get_asymmetric_params(x):
     return scale, zero_point
 
 
+def quantize_asymmetric(x, scale, zero_point):
+    """
+    Float32 -> Int8
+    """
+
+    quantized = torch.round(x / scale) + zero_point
+    return quantized.clamp(0, 255).to(torch.uint8)
+
+def dequantize_asymmetric(quantized, scale, zero_point):
+    return (quantized.to(torch.float32) - zero_point) * scale
+
 
 
 
@@ -55,21 +76,44 @@ if __name__ == "__main__":
     weights = torch.randn(4, 4)
     print(f"Original Weights : {weights}")
 
-    scale = get_symmetric_scale(weights)
+    s_scale = get_symmetric_scale(weights)
 
-    print(f"\nscale: {scale.item():.7f}")
+    print(f"\nscale: {s_scale.item():.7f}")
 
-    quantized_weight = quantize_symmetric(weights, scale)
+    quantized_weight = quantize_symmetric(weights, s_scale)
 
     print(f"\nQuantized Weights: {quantized_weight}")
 
-    dequantized_weight = dequantize_symmetric(quantized_weight, scale)
+    dequantized_weight = dequantize_symmetric(quantized_weight, s_scale)
     print(f"Dequantized Weights: {dequantized_weight}")
 
 
     #Measuring Quantization Error
     error = torch.mean((weights - dequantized_weight)**2)
     print(f"MSE: {error.item():.8f}")
+
+    export_model(quantized_weight, s_scale, 0,"symmetric_model.bin")
+
+    asymmetric_weights = torch.randn(4, 4).relu()
+    print(f"Original Weights : {asymmetric_weights}")
+
+
+    a_scale, zero_point = get_asymmetric_params(asymmetric_weights)
+    print(f"\nscale: {a_scale.item():.7f}")
+    print(f"\nzero_point: {zero_point.item():.7f}")
+    quantized_asymmetric = quantize_asymmetric(asymmetric_weights, a_scale, zero_point)
+    print(f"\nQuantized Weights: {quantized_asymmetric}")
+    dequantized_asymmetric = dequantize_asymmetric(quantized_asymmetric, a_scale, zero_point)
+    print(f"Dequantized Weights: {dequantized_asymmetric}")
+
+    error  = torch.mean((asymmetric_weights - dequantized_asymmetric) ** 2)
+    print(f"MSE: {error.item():.8f}")
+
+    export_model(quantized_asymmetric, a_scale, zero_point, "asymmetric_model.bin")
+    
+
+
+
 
 
 
