@@ -43,10 +43,13 @@ int main() {
         return;
       }
 
+      std::cout << "DEBUG: Received sensor data, processing..." << std::endl;
       auto result = engine.predict(sensors);
       float prob = 1.0f / (1.0f + std::exp(-result[0]));
-
+      
       std::string status = (prob > 0.5f) ? "DANGER" : "NOMINAL";
+
+      std::cout << "DEBUG: Prediction: " << prob << " (" << status << ")" << std::endl;
 
       std::string json = "{\"probability\": " + std::to_string(prob) +
                          ", \"status\": \"" + status + "\"}";
@@ -63,7 +66,13 @@ int main() {
     res.status = 200;
   });
 
+  // Serve web dashboard from ./web directory
+  if (!svr.set_mount_point("/", "./web")) {
+    std::cerr << "WARNING: ./web directory not found. Dashboard disabled." << std::endl;
+  }
+
   std::cout << "NASA Sentinel Edge AI Active on port 8080..." << std::endl;
+  std::cout << "Dashboard: http://localhost:8080" << std::endl;
   svr.listen("0.0.0.0", 8080);
 
   return 0;

@@ -46,38 +46,144 @@
                     <p class="subtext">Edge Inference Accuracy: 98.6%</p>
                 </div>
 
-                <!-- Simulation Inputs -->
-                <div class="card input-card">
-                    <h3>Engine Diagnostic Simulator</h3>
-                    <p class="subtext">Manual Sensor Override (17-Axis Vitals)</p>
-                    <div class="input-grid">
-                        <div class="input-group">
-                            <label>Vibration (s17)</label>
-                            <input type="range" min="20" max="25" step="0.1" value="23" id="s17" class="sensor-slider">
-                        </div>
-                        <div class="input-group">
-                            <label>Temp (s2)</label>
-                            <input type="range" min="640" max="645" step="0.1" value="642" id="s2" class="sensor-slider">
-                        </div>
-                        <div class="input-group">
-                            <label>Pressure (s3)</label>
-                            <input type="range" min="1580" max="1610" step="1" value="1588" id="s3" class="sensor-slider">
-                        </div>
-                    </div>
-                    <button class="btn-primary" id="analyze-btn">RUN SENTINEL ANALYSIS</button>
-                </div>
-
                 <!-- Alert Panel -->
                 <div class="card alert-card" id="alert-panel">
                     <h3>Sentinel Analysis Report</h3>
                     <div class="alert-content">
                         <div class="alert-item">
                             <span class="label">Cycle Estimate:</span>
-                            <span class="value" id="cycle-est">NOMINAL (>30)</span>
+                            <span class="value" id="cycle-est">NOMINAL (&gt;30)</span>
                         </div>
                         <div class="alert-item danger-fade" id="warning-text">
                             NO ACTION REQUIRED
                         </div>
+                    </div>
+                </div>
+
+                <!-- Full Sensor Panel (spans full width) -->
+                <div class="card input-card full-width">
+                    <h3>Engine Diagnostic Simulator</h3>
+                    <p class="subtext">Full 17-Axis Sensor Override — Real NASA CMAPSS Ranges</p>
+                    
+                    <div class="sensor-grid">
+                        <!-- s2 -->
+                        <div class="input-group">
+                            <label>s2 — Fan Inlet Temp</label>
+                            <div class="slider-row">
+                                <input type="range" min="641" max="645" step="0.1" value="642.68" id="s2" class="sensor-slider">
+                                <span class="sensor-val" id="s2-val">642.68</span>
+                            </div>
+                        </div>
+                        <!-- s3 -->
+                        <div class="input-group">
+                            <label>s3 — LPC Outlet Temp</label>
+                            <div class="slider-row">
+                                <input type="range" min="1570" max="1617" step="1" value="1590" id="s3" class="sensor-slider">
+                                <span class="sensor-val" id="s3-val">1590</span>
+                            </div>
+                        </div>
+                        <!-- s4 -->
+                        <div class="input-group">
+                            <label>s4 — HPC Outlet Temp</label>
+                            <div class="slider-row">
+                                <input type="range" min="1380" max="1442" step="1" value="1409" id="s4" class="sensor-slider">
+                                <span class="sensor-val" id="s4-val">1409</span>
+                            </div>
+                        </div>
+                        <!-- s7 -->
+                        <div class="input-group">
+                            <label>s7 — LPT Outlet Temp</label>
+                            <div class="slider-row">
+                                <input type="range" min="549" max="556" step="0.1" value="553.4" id="s7" class="sensor-slider">
+                                <span class="sensor-val" id="s7-val">553.4</span>
+                            </div>
+                        </div>
+                        <!-- s8 -->
+                        <div class="input-group">
+                            <label>s8 — Physical Fan Speed</label>
+                            <div class="slider-row">
+                                <input type="range" min="2387" max="2389" step="0.1" value="2388.1" id="s8" class="sensor-slider">
+                                <span class="sensor-val" id="s8-val">2388.1</span>
+                            </div>
+                        </div>
+                        <!-- s9 -->
+                        <div class="input-group">
+                            <label>s9 — Physical Core Speed</label>
+                            <div class="slider-row">
+                                <input type="range" min="9021" max="9245" step="1" value="9065" id="s9" class="sensor-slider">
+                                <span class="sensor-val" id="s9-val">9065</span>
+                            </div>
+                        </div>
+                        <!-- s11 -->
+                        <div class="input-group">
+                            <label>s11 — HPC Static Pressure</label>
+                            <div class="slider-row">
+                                <input type="range" min="46.8" max="48.6" step="0.1" value="47.5" id="s11" class="sensor-slider">
+                                <span class="sensor-val" id="s11-val">47.5</span>
+                            </div>
+                        </div>
+                        <!-- s12 -->
+                        <div class="input-group">
+                            <label>s12 — Fuel/Air Ratio</label>
+                            <div class="slider-row">
+                                <input type="range" min="518" max="524" step="0.1" value="521.4" id="s12" class="sensor-slider">
+                                <span class="sensor-val" id="s12-val">521.4</span>
+                            </div>
+                        </div>
+                        <!-- s13 -->
+                        <div class="input-group">
+                            <label>s13 — Corrected Fan Speed</label>
+                            <div class="slider-row">
+                                <input type="range" min="2387" max="2389" step="0.1" value="2388.1" id="s13" class="sensor-slider">
+                                <span class="sensor-val" id="s13-val">2388.1</span>
+                            </div>
+                        </div>
+                        <!-- s14 -->
+                        <div class="input-group">
+                            <label>s14 — Corrected Core Speed</label>
+                            <div class="slider-row">
+                                <input type="range" min="8099" max="8294" step="1" value="8144" id="s14" class="sensor-slider">
+                                <span class="sensor-val" id="s14-val">8144</span>
+                            </div>
+                        </div>
+                        <!-- s15 -->
+                        <div class="input-group">
+                            <label>s15 — Bypass Ratio</label>
+                            <div class="slider-row">
+                                <input type="range" min="8.3" max="8.6" step="0.01" value="8.44" id="s15" class="sensor-slider">
+                                <span class="sensor-val" id="s15-val">8.44</span>
+                            </div>
+                        </div>
+                        <!-- s17 -->
+                        <div class="input-group">
+                            <label>s17 — Bleed Enthalpy</label>
+                            <div class="slider-row">
+                                <input type="range" min="388" max="400" step="0.1" value="393" id="s17" class="sensor-slider">
+                                <span class="sensor-val" id="s17-val">393</span>
+                            </div>
+                        </div>
+                        <!-- s20 -->
+                        <div class="input-group">
+                            <label>s20 — BPR Demand</label>
+                            <div class="slider-row">
+                                <input type="range" min="38.1" max="39.5" step="0.1" value="38.8" id="s20" class="sensor-slider">
+                                <span class="sensor-val" id="s20-val">38.8</span>
+                            </div>
+                        </div>
+                        <!-- s21 -->
+                        <div class="input-group">
+                            <label>s21 — HPT Coolant Bleed</label>
+                            <div class="slider-row">
+                                <input type="range" min="22.8" max="23.7" step="0.01" value="23.29" id="s21" class="sensor-slider">
+                                <span class="sensor-val" id="s21-val">23.29</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="btn-row">
+                        <button class="btn-preset" id="btn-nominal">RESET TO NOMINAL</button>
+                        <button class="btn-preset btn-danger" id="btn-failure">SIMULATE FAILURE</button>
+                        <button class="btn-primary" id="analyze-btn">RUN SENTINEL ANALYSIS</button>
                     </div>
                 </div>
             </div>

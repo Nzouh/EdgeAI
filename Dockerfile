@@ -23,8 +23,9 @@ COPY --from=builder /build/sentinel_engine .
 COPY --from=builder /build/validator_tool .
 COPY sentinel_model.bin .
 COPY nasa_test_labeled.csv .
+COPY web/ ./web/
 
-# Document that we use port 8080 (For future web dashboard)
+# Document that we use port 8080 (Dashboard + API)
 EXPOSE 8080
 
 # Run the engine by default
